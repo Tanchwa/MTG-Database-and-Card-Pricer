@@ -20,12 +20,12 @@ card_price = "$" + card_price_string[31:31+length_price]
 print(card_price)
 #check if card price is the same, if yes redo loop, if no continue to print new value into database
 
-
+#test to see if code works with other cards
 set_name = 'Tempest'
-card_name = 'Bottle-Gnomes'
+card_name = 'Bottle Gnomes'
 #These variables will be changed to match the database schema once implimented#
-set_name = set_name.replace("-","+")
-card_name = card_name.replace("-","+")
+set_name = set_name.replace(" ","+")
+card_name = card_name.replace(" ","+")
 #create a loop to run this through all cards in database#
 card_price_url = "https://www.mtggoldfish.com/price/{}/{}#paper".format(set_name,card_name)
 uClient = uReq(card_price_url)
