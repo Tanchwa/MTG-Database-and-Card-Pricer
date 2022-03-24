@@ -1,4 +1,5 @@
 from urllib.request import urlopen as uReq
+from urllib.error import HTTPError
 from bs4 import BeautifulSoup as soup
 from mtgsdk import Card, Set
 
@@ -39,7 +40,10 @@ def card_price_lookup(card_name, set_name):
     card_name = "+".join(card_name)
     set_name = "+".join(set_name)
     card_price_url = f"https://www.mtggoldfish.com/price/{set_name}/{card_name}#paper"
-    uClient = uReq(card_price_url)
+    try:
+        uClient = uReq(card_price_url)
+    except HTTPError:
+        print("Please Enter a Valid Card and Set\nAlpha, Beta, and Unlimited Are Notated as:\n'Limited Edition Alpha, Limited Edition Beta, Unlimited Edition, and Revised Edition'")
     card_price_html = uClient.read()
     uClient.close()
     page_soup = soup(card_price_html, "html.parser")
