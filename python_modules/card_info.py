@@ -11,9 +11,9 @@ def multiverse_lookup(multiverse_id):
     return card_name, set_name
 
 
-#this needs to be changed to make beginings of names capitals
+#make the card and set names into a tuple ya dumb dumb
 
-def card_price_lookup(card_name, set_name):
+def card_price_lookup(card_name, set_name, foil=False):
     bad_characters = {"'", ','}
     uncapitalized_words = {"Of", "For", "A", "The", "In", "An"}
     #check if the bad characters are there and replace all of them
@@ -39,11 +39,14 @@ def card_price_lookup(card_name, set_name):
             make_element_lowercase(set_name, unapitalized_word)
     card_name = "+".join(card_name)
     set_name = "+".join(set_name)
+    if foil == True:
+        set_name = set_name + ":Foil"
     card_price_url = f"https://www.mtggoldfish.com/price/{set_name}/{card_name}#paper"
     try:
         uClient = uReq(card_price_url)
     except HTTPError:
         print("Please Enter a Valid Card and Set\nAlpha, Beta, and Unlimited Are Notated as:\n'Limited Edition Alpha, Limited Edition Beta, Unlimited Edition, and Revised Edition'")
+        return("price not found")
     card_price_html = uClient.read()
     uClient.close()
     page_soup = soup(card_price_html, "html.parser")
