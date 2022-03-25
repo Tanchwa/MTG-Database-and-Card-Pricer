@@ -15,7 +15,7 @@ def multiverse_lookup(multiverse_id):
 
 def card_price_lookup(card_name, set_name, foil=False):
     bad_characters = {"'", ','}
-    uncapitalized_words = {"Of", "For", "A", "The", "In", "An"}
+    uncapitalized_words = {"Of", "For", "A", "The", "In", "An", "Vs"}
     #check if the bad characters are there and replace all of them
     for bad_character in card_name:
         if bad_character in bad_characters:
@@ -24,19 +24,23 @@ def card_price_lookup(card_name, set_name, foil=False):
         if bad_character in bad_characters:
             set_name = set_name.replace(bad_character,"")
     card_name = card_name.title()
-    set_name = set_name.title()    
+    set_name = set_name.title()
     def make_element_lowercase(list, word):
         word_index = list.index(word)
         list[word_index] = str.lower(list[word_index])
     card_name = card_name.split(" ")
     set_name = set_name.split(" ")
     #check and change the unimportant words to non-capitals
+    i = 0
     for unapitalized_word in card_name:
-        if unapitalized_word in uncapitalized_words:
+        if unapitalized_word in uncapitalized_words and i != 0:
             make_element_lowercase(card_name, unapitalized_word)
+        i += 1
+    i = 0
     for unapitalized_word in set_name:
-        if unapitalized_word in uncapitalized_words:
+        if unapitalized_word in uncapitalized_words and i != 0:
             make_element_lowercase(set_name, unapitalized_word)
+        i += 1
     card_name = "+".join(card_name)
     set_name = "+".join(set_name)
     if foil == True:
@@ -45,7 +49,7 @@ def card_price_lookup(card_name, set_name, foil=False):
     try:
         uClient = uReq(card_price_url)
     except HTTPError:
-        print("Please Enter a Valid Card and Set\nAlpha, Beta, and Unlimited Are Notated as:\n'Limited Edition Alpha, Limited Edition Beta, Unlimited Edition, and Revised Edition'")
+        print("Please Enter a Valid Card and Set\nNames Must Match mtggoldfish.com's url")
         return("price not found")
     card_price_html = uClient.read()
     uClient.close()

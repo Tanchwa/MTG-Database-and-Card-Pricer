@@ -2,7 +2,7 @@ import openpyxl
 import card_info
 
 
-mtg_card_inventories = openpyxl.load_workbook("Magic Card Spreadsheet.xlsx")
+mtg_card_inventories = openpyxl.load_workbook("..\Magic Card Spreadsheet.xlsx")
 card_list = mtg_card_inventories["mtg_cards"]
 
 for card in range(2, card_list.max_row + 1):
@@ -15,5 +15,5 @@ for card in range(2, card_list.max_row + 1):
         print(card_name, set_name, "UPDATED")
         card_list.cell(card, 5).value = card_info.card_price_lookup(card_name,set_name)
 
-mtg_card_inventories.save(filename="Magic Card Spreadsheet Appended.xlsx")
+mtg_card_inventories.save(filename="..\Magic Card Spreadsheet Appended.xlsx")
 
